@@ -11,5 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "create-react-app": "^5.0.1"
-  }
+  },
+  "workspaces": [
+    "packages/react-frontend",
+    "packages/express-backend"
+  ]
 }
