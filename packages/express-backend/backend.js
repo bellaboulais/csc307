@@ -1,4 +1,5 @@
 // backend.js
+import e from "express";
 import express from "express";
 
 const app = express();
@@ -48,6 +49,7 @@ const findUserByName = (name) => {
         .filter( (user) => user['name'] === name); 
 }
 
+
 app.get('/users', (req, res) => {
     const name = req.query.name;
     if (name != undefined){
@@ -84,3 +86,23 @@ app.post('/users', (req, res) => {
     addUser(userToAdd);
     res.send();
 });
+
+const deleteUser = (id) => {
+    let result = users['users_list'].find( (user) => user['id'] === id);
+    if (result) {
+        const num = users['users_list'].indexOf(result);
+        users['users_list'].splice(num, 1);
+    }
+    return result;
+}
+
+app.delete('/users/:id/', (req, res) => {
+    const id = req.params.id;
+    let result = deleteUser(id);
+    if (result === undefined) {
+        res.status(404).send('Resource not found.');
+    } else {
+        res.send();
+    }
+})
+
