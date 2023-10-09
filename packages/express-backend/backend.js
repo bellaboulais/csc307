@@ -90,15 +90,25 @@ app.get('/users/:id', (req, res) => {
     }
 });
 
+function generateUserID() {
+    return Math.floor(Math.random() * 1000);
+}
+
 const addUser = (user) => {
+    user.id = generateUserID().toString();
     users['users_list'].push(user);
     return user;
 }
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    let user = addUser(userToAdd);
+    if(user) {
+        res.status(201).json(user);
+    }
+    else {
+        res.status(500).send("error adding user");
+    }
 });
 
 const deleteUser = (id) => {
@@ -116,7 +126,7 @@ app.delete('/users/:id/', (req, res) => {
     if (result === undefined) {
         res.status(404).send('Resource not found.');
     } else {
-        res.send();
+        res.status(204).send(result);
     }
 })
 
