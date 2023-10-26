@@ -8,12 +8,12 @@ function MyApp() {
 
   function removeOneCharacter (index) {
     const remove = characters[index];
-    fetch(`http://localhost:8000/users/${remove.id}`, {
+    fetch(`http://localhost:8000/users/${remove._id}`, {
       method: 'DELETE',
     })
     .then((response) => {
       if (response.status === 204) {
-        const updated = characters.filter((character) => character.id !== remove.id);
+        const updated = characters.filter((character) => character._id !== remove._id);
         console.log("updated: ", updated)
         setCharacters(updated);
       } else if (response.status === 404) {
